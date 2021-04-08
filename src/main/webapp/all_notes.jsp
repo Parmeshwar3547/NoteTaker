@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="com.helper.FactoryProvider"%>
 <%@ page import="org.hibernate.*"%>
-<%@ page import="java.util.*"%>
+<%@ page import="java.util.*,java.text.SimpleDateFormat"%>
 <%@ page import="com.entities.*"%>
 <!DOCTYPE html>
 <html>
@@ -29,12 +29,20 @@
 				<div class="card mt-3 bgb" >
 					
 					<div class="card-body">
-					
+						
 						<h5 class="card-title"><span><img class="card-img-top p-1" src="img/notes.png" style="width:4rem" alt="Card image cap">
 					</span><%=n.getTitle() %></h5>
-						<p class="card-text"><%=n.getContent() %></p>
+					<%
+					 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+				    String strDate= formatter.format(n.getAddedDate());  
+					%>
+					 <span class="font-italic">Added Date: <%=strDate%></span>
+						<hr>
+						<h6>Note Details: </h6>
+						<p class="card-text"><%=n.getContent() %></p><hr>
+						<div class="text-center">
 						<a href="DeleteServlet?note_id=<%=n.getId() %>" class="btn btn-danger">Delete</a>
-						<a href="edit.jsp?note_id=<%=n.getId() %>" class="btn btn-success">Update</a>
+						<a href="edit.jsp?note_id=<%=n.getId() %>" class="btn btn-success">Update</a></div>
 					</div>
 				</div>
 
