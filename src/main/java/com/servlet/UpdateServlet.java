@@ -1,15 +1,13 @@
 package com.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 import com.entities.Note;
+import com.helper.FactoryProvider;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -17,12 +15,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class SaveNoteServlet
+ * Servlet implementation class UpdateServlet
  */
-public class SaveNoteServlet extends HttpServlet {
+public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public SaveNoteServlet() {
+	public UpdateServlet() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -30,26 +28,18 @@ public class SaveNoteServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
+			int noteId = Integer.parseInt(request.getParameter("id").trim());
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-
-			Note note = new Note();
+			Session s = FactoryProvider.getFactory().openSession();
+			Transaction tx = s.beginTransaction();
+			Note note = (Note) s.get(Note.class, noteId);
 			note.setTitle(title);
 			note.setContent(content);
 			note.setAddedDate(new Date());
-			SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-			Session s = factory.openSession();
-			Transaction tx = s.beginTransaction();
-			s.save(note);
 			tx.commit();
 			s.close();
-			factory.close();
-			response.setContentType("text/html");
-
-			PrintWriter out = response.getWriter();
-			out.println("<div class='text-center'><h1 > note added successfully</h1>");
-			out.println("<h4><a href='all_notes.jsp'>View all notes</a></h4></div>");
-
+			response.sendRedirect("all_notes.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
