@@ -13,11 +13,22 @@
 <link href="css/style.css" rel="stylesheet">
 <title>NoteTaker | Home</title>
 </head>
-<body>
+<body class="bgb">
 
 	<%@ include file="navbar.jsp"%>
+<br><br>
+	<div class="container text-center bgb">
+		<div class="card bbg" style="">
+			<img class="img-fluid rounded mx-auto d-block m-2" src="img/notes.png" style="width:300px" alt="Card image cap">
+			<div class="card-body">
+				<h5 class="card-title "style="color: #43a047">START TAKING YOUR NOTES</h5>
+				
+				<a href="add_note.jsp" class="btn btn-outline-success">Start Here</a>
+			</div>
+		</div>
 
 
+	</div>
 
 
 
